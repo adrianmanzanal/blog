@@ -1,0 +1,4 @@
+"0","aemet_api_key(""eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW56YW5hbC5hZHJpYW5AZ21haWwuY29tIiwianRpIjoiYTgzMGZiMDYtNDA4MS00ZjI5LTg2OGQtODAxNjk4ZTQ5ODgzIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3MDAwNjAxNDgsInVzZXJJZCI6ImE4MzBmYjA2LTQwODEtNGYyOS04NjhkLTgwMTY5OGU0OTg4MyIsInJvbGUiOiIifQ.K-WatjfGMNJ-fO4V6hj4u4P89PUdBuTbieab_gcKH44"", install = TRUE)
+"
+"2","Error: An AEMET_API_KEY already exists. You can overwrite it with the argument overwrite=TRUE
+"

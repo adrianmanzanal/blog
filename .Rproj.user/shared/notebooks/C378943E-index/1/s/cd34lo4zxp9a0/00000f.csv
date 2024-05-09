@@ -1,0 +1,72 @@
+"0","#| eval: false"
+"0","#| output: false"
+"0","#| error: false"
+"0","install.packages(""climaemet"", dependencies = TRUE)"
+"2","WARNING: Rtools is required to build R packages but is not currently installed. Please download and install the appropriate version of Rtools before proceeding:
+
+https://cran.rstudio.com/bin/windows/Rtools/
+"
+"2","Installing package into ‘C:/Users/34685/AppData/Local/R/win-library/4.3’
+(as ‘lib’ is unspecified)
+"
+"2","also installing the dependencies ‘tweenr’, ‘climatol’, ‘gganimate’, ‘jpeg’
+
+"
+"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/tweenr_2.0.2.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 515577 bytes (503 KB)
+"
+"2","downloaded 503 KB
+
+"
+"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/climatol_4.0.0.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 2919714 bytes (2.8 MB)
+"
+"2","downloaded 2.8 MB
+
+"
+"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/gganimate_1.0.8.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 1260590 bytes (1.2 MB)
+"
+"2","downloaded 1.2 MB
+
+"
+"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/jpeg_0.1-10.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 157064 bytes (153 KB)
+"
+"2","downloaded 153 KB
+
+"
+"2","probando la URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/climaemet_1.2.0.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 1192598 bytes (1.1 MB)
+"
+"2","downloaded 1.1 MB
+
+"
+"1","package ‘tweenr’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘climatol’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘gganimate’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘jpeg’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘climaemet’ successfully unpacked and MD5 sums checked
+"
+"1","
+"
+"1",""
+"1","The downloaded binary packages are in
+	C:\Users\34685\AppData\Local\Temp\RtmpGyefEP\downloaded_packages"
+"1",""
+"1","
+"

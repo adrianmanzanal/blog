@@ -1,0 +1,35 @@
+{
+  "about.qmd": {
+    "about.html": "16ce45b7"
+  },
+  "index.qmd": {
+    "index.html": "85364bbd"
+  },
+  "posts/post-with-code/index.qmd": {
+    "index.html": "8f7d81ae"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "595e6429"
+  },
+  "blog.qmd": {
+    "blog.html": "065437fe"
+  },
+  "docencia.qmd": {
+    "docencia.html": "ba066e1b"
+  },
+  "research.qmd": {
+    "research.html": "4952385d"
+  },
+  "posts/aemet/index.qmd": {
+    "index.html": "715a16fc"
+  },
+  "posts/density maps/index.qmd": {
+    "index.html": "1d448ff2"
+  },
+  "cv.qmd": {
+    "cv.html": "9034bc74"
+  },
+  "posts/cuantile/index.qmd": {
+    "index.html": "600dbb2e"
+  }
+}

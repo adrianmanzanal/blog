@@ -1,0 +1,185 @@
+---
+title: "Bucket a numeric vector into n groups, quantiles"
+author: "Adrian Manzanal"
+date: "2024-05-05"
+categories: [statistics,  frequency distribution]
+image: "cuantilesicon.jpg"
+---
+
+# **Quantiles in R**
+**Helpful information in order to know non-central distribution measures**
+
+The word “quantile” comes from the word quantity. In simple terms, a quantile is where a sample is divided into equal-sized, adjacent, subgroups (that’s why it’s sometimes called a “fractile“). It can also refer to dividing a probability distribution into areas of equal probability.
+
+Using non-central measures, as quantile, we will be able to analyze the income distribution for the different poblational groups.
+
+Full site with examples and vignettes on https://dplyr.tidyverse.org/reference/ntile.html.
+
+### Identify the variable that you are interested in
+
+First of all, you should select the variable which will be used to segregate. In this example we are going to use the following:
+
+$$
+Available Income per Household (HY020). 
+$$
+We are using the ECV sample, from the INE (Instituto Nacional de Estadística)
+
+It would be useful to prepare the following packages..
+
+```{r}
+#| eval: true
+#| output: false
+#| error: false
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+#| eval: true
+#| output: false
+#| error: false
+#| echo: false
+library(kableExtra)
+```
+
+Now we start reading the raw data in csv format:
+
+```{r}
+#| eval: true
+#| output: false
+#| error: false
+data_hog_2023 <- read.csv("./esudb23h.csv")
+
+```
+
+Before start with the segregation, would be very useful to analyze the entire poblation. If we look at the main statistics:
+
+```{r}
+#| eval: true
+#| output: true
+#| error: false
+#| echo: false
+
+mediana_hogar2023_0 <- data_hog_2023 %>%
+  mutate(counting = 1) %>%
+  summarise(mediana_renta = median (HY020), media_renta = mean(HY020), muestra =  sum(counting)) %>%
+  ungroup() 
+
+```
+
+
+```{r}
+#| eval: true
+#| output: true
+#| error: false
+#| echo: false
+
+kbl(mediana_hogar2023_0)
+
+```
+
+and if we look at the histogram:
+```{r}
+#| eval: true
+#| output: true
+#| error: false
+#| echo: false
+
+ggplot(data = data_hog_2023) + 
+  geom_histogram(aes(x=HY020), binwidth = 100, fill = "indianred1")
+
+```
+
+
+
+
+### How to create quantiles
+
+ntile() is a sort of very rough rank, which breaks the input vector into n buckets. If length(x) is not an integer multiple of n, the size of the buckets will differ by up to one, with larger buckets coming first.
+
+Unlike other ranking functions, ntile() ignores ties: it will create evenly sized buckets even if the same value of x ends up in different buckets.
+
+```{r}
+#| eval: true
+#| output: false
+#| error: false
+data_hogar2023_v2 <- data_hog_2023 %>%
+  mutate(counting = 1) %>%
+  filter(HY020 >=0 ) %>%
+  mutate(decil = ntile(HY020, n = 10),
+         cuartil = ntile(HY020, n = 4)
+  ) %>%
+  select(c("HB120", "HY020", "HY023", "HY040N", "HY090N", "HS011", "HS021", "HH021", "HX240", "vhPobreza", 
+           "counting", "decil", "cuartil", "HY040G"))
+```
+
+In order to calculate the thresholds of each interval:
+
+```{r}
+#| eval: true
+#| output: true
+#| error: false
+#| echo: true
+
+cuartiles_hog <- quantile(data_hogar2023_v2$HY020, probs = seq(0, 1, by = 0.25))
+
+plot(cuartiles_hog, type = "b", xlab = "Decil", ylab = "Renta", main = "Cuartiles Intervals")
+kbl(cuartiles_hog)
+```
+
+### Analyzing quantiles
+
+Quantiles are useful measures because they are less susceptible than means to long-tailed distributions and outliers. Empirically, if the data being analyzed are not actually distributed according to an assumed distribution, or if there are other potential sources for outliers that are far removed from the mean, then quantiles may be more useful descriptive statistics than means and other moment-related statistics.
+
+In our case we are very interested to know the income distribution for the different poblational groups. Before start any cluster project you must analyze your poblation using quantiles.
+
+There is more dispersion in the 4th quantil:
+
+
+```{r cuartilstat, fig.width=10, fig.height = 5, echo=TRUE}
+boxplot(data_hogar2023_v2$HY020 ~ data_hogar2023_v2$cuartil, main="Income Distribution 2023", 
+        xlab = "cuartiles", ylab = "Available Net Income per Household") 
+```
+
+When we analyze the main statistic indicators for each quantil, there are an important difference between the groups in terms of average income, specially in the last quantil:
+
+```{r cuartilstat2, fig.width=10, fig.height = 5, echo=TRUE}
+kbl(estadisticos_cuartil_hog<- data_hogar2023_v2 %>%
+  group_by(cuartil) %>%
+  summarise(muestra = sum(counting), media_renta = mean(HY020), mediana_renta = median(HY020),
+            media_rentas_capital = mean(HY090N), media_rentas_propiedad = mean(HY040N))
+)
+```
+
+It is very interesting to see how capital and real state incomes increase in importance in the 4th quantil.
+
+Furthermore, we can segregate the original histogram by quantil:
+
+
+```{r cuartilstat3, echo=FALSE, error=FALSE, warning=FALSE}
+data_hogar2023_v2  %>%
+  ggplot (aes(x = HY020, group = cuartil), binwidth = 30) +
+  geom_histogram(bins=30) +
+  facet_wrap(~ cuartil) +
+  labs(x = "Available Income", y = "Observations") +
+  ggtitle("Histograms 2023")
+```
+
+### Quantiles and other variables
+
+
+```{r calculations3, include=FALSE}
+caseros_df23 <- data_hogar2023_v2 %>%
+  mutate(casero = ifelse(HY040G>0, "Percibe rentas Propiedad","No percibe rentas de propiedad")) %>%
+  group_by(cuartil, casero) %>%
+  summarise(sum(counting)) 
+
+```
+
+```{r cuartilstat6, echo=TRUE, error=FALSE, warning=FALSE, fig.width=10, fig.height = 5}
+ggplot(data= caseros_df23, aes(x=cuartil, y=caseros_df23$`sum(counting)`, fill=as.character(casero))) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label=caseros_df23$`sum(counting)`), vjust=1, color="white",
+             size=5) +
+    ggtitle("Real Estate Owners")
+```
